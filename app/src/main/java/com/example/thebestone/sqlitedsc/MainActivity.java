@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view,final int position, final long l) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("Hapus!");
                 alert.setMessage("Apakah Data Akan Dihapus?");
@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         try {
                             db = sqLiteDsc.getWritableDatabase();
-                            db.execSQL("delete from TB_DSC where name = '" + data[l] + "'");
+                            db.execSQL("delete from TB_DSC where name = '" + data[position] + "'");
+
+                            refreshListView();
                         } catch (SQLiteException e) {
                             Toast.makeText(MainActivity.this, "" + e, Toast.LENGTH_SHORT).show();
                         }
